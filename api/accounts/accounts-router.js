@@ -19,7 +19,7 @@ router.get('/:id', checkAccountId, async (req, res) => {
   res.json(req.account);
 })
 
-router.post('/', checkAccountPayload, (req, res, next) => {
+router.post('/', checkAccountPayload, checkAccountNameUnique, (req, res, next) => {
   // DO YOUR MAGIC
   try { 
     res.json('post account')

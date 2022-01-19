@@ -6,7 +6,10 @@ const getAll = () => {
 
 const getById = id => {
   return db('accounts').where('id', id).first();
+}
 
+const getByName = name => {
+  return db('accounts').where('name', name.trim()).first();
 }
 
 const create = account => {
@@ -24,6 +27,7 @@ const deleteById = id => {
 module.exports = {
   getAll,
   getById,
+  getByName,
   create,
   updateById,
   deleteById,
