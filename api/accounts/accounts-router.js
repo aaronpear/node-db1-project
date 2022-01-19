@@ -19,35 +19,35 @@ router.get('/:id', checkAccountId, async (req, res) => {
   res.json(req.account);
 })
 
-router.post('/', checkAccountPayload, checkAccountNameUnique, (req, res, next) => {
-  // DO YOUR MAGIC
+router.post('/', checkAccountPayload, checkAccountNameUnique, async (req, res, next) => {
   try { 
-    res.json('post account')
+    const account = await Account.create(req.body);
+    res.status(201).json(account);
   } catch (err) {
     next(err);
   }
 })
 
-router.put('/:id', (req, res, next) => {
-  // DO YOUR MAGIC
+router.put('/:id', checkAccountPayload, checkAccountId, async (req, res, next) => {
   try { 
-    res.json('put account by ID')
+    await Account.updateById(req.params.id);
+    const updatedAccount = Account.getById(req.params.id);
+    res.json(updatedAccount);
   } catch (err) {
     next(err);
   }
 });
 
-router.delete('/:id', (req, res, next) => {
-  // DO YOUR MAGIC
+router.delete('/:id', checkAccountId, async (req, res, next) => {
   try { 
-    res.json('delete account by ID')
+    await Account.deleteById(req.params.id);
+    res.json(req.account);
   } catch (err) {
     next(err);
   }
 })
 
 router.use((err, req, res, next) => { // eslint-disable-line
-  // DO YOUR MAGIC
   res.status(err.status || 500).json({ message: err.message });
 })
 
